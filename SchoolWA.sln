@@ -18,8 +18,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Main", "Main", "{1DD8EF12-9
 		uploadFile.js = uploadFile.js
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "resources", "resources", "{43017E94-BFEE-49C7-9F25-CDEDFEAE7A43}"
+	ProjectSection(SolutionItems) = preProject
+		resources\attachment-svgrepo-com.svg = resources\attachment-svgrepo-com.svg
+		class names regex.txt = class names regex.txt
+		resources\contactL.jpg = resources\contactL.jpg
+		resources\contactR.jpg = resources\contactR.jpg
+		resources\group-refresh.svg = resources\group-refresh.svg
+		resources\help-square-svgrepo-com.svg = resources\help-square-svgrepo-com.svg
+		resources\send-svgrepo-com.png = resources\send-svgrepo-com.png
+		resources\send-svgrepo-com.svg = resources\send-svgrepo-com.svg
+		resources\session-leave-svgrepo-com.svg = resources\session-leave-svgrepo-com.svg
+		resources\settings-svgrepo-com.svg = resources\settings-svgrepo-com.svg
+		ToDo.txt = ToDo.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{43017E94-BFEE-49C7-9F25-CDEDFEAE7A43} = {1DD8EF12-99F0-44A8-9568-085D6337A1EB}
 	EndGlobalSection
 EndGlobal
