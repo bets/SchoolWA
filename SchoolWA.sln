@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Main", "Main", "{1DD8EF12-99F0-44A8-9568-085D6337A1EB}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		class names regex.txt = class names regex.txt
+		Emoji.js = Emoji.js
+		index.html = index.html
+		main.css = main.css
+		main.js = main.js
+		models.css = models.css
+		models.js = models.js
+		ToDo.txt = ToDo.txt
+		uploadFile.js = uploadFile.js
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="./resources/send-svgrepo-com.png">
+    <link rel="stylesheet" href="./main.css">
+    <link rel="stylesheet" href="./models.css">
+    <title>Whatsapp Group Control</title>
+</head>
+<body>
+    <!--<div style="position:fixed;top:0;bottom:0;left:0;right:0;background-color:rgb(21, 98, 9, 0.74);z-index:3;text-align:center;">
+        <div style="margin-top: 5em; background-color: white;padding:1em;">
+            <h1 >
+                המערכת סגורה עד להתייצבות מבנה כיתות בית הספר.
+            </h1>
+            <h2 >ניתן לשלוח הודעות על ידי פניה לשיינה מהוועד.</h2>
+        </div>
+    </div>-->
+
+    <div id="testIndicator" class="hide"></div>
+    <header class="">
+        <a href="javascript:void(0)" onclick="settingsModel()" title="הגדרות"><img src="./resources/settings-svgrepo-com.svg" alt="הגדרות" /></a>
+        <span></span>
+        <div class="pageTitle">Whatsapp Group Control</div>
+        <a id="faqBtn" href="javascript:void(0)" onclick="faqModel()" title="עזרה"><img src="./resources/help-square-svgrepo-com.svg" alt="עזרה" /></a>
+        <a href="javascript:void(0)" onclick="signOff()" title="יצאה מהחשבון"><img src="./resources/session-leave-svgrepo-com.svg" alt="יציאת משתמש" /></a>
+    </header>
+    <div id="main">
+        <div id="groupSelector" class="section">
+            <div class="sectionTitle">בחירת קבוצות</div>
+            <!--<div id="allCon" class="slot">
+                <label for="all"><input id="all" type="checkbox">כל הכיתות</label>
+            </div>-->
+            <div id="allGrades">
+                <div id="allCon" class="slot">
+                    <label for="all"><input id="all" type="checkbox">כל הכיתות</label>
+                </div>
+            </div>
+            <!--
+            Example of a grade
+            <details>
+                 <summary><input id="a" type="checkbox" class="grade"> Grade A</summary>
+                 <label for="a1"><input id="a1" type="checkbox">a1</label>
+                 <label for="a2"><input id="a2" type="checkbox">a2</label>
+                 <label for="a3"><input id="a3" type="checkbox">a3</label>
+            </details> -->
+            <div id="groups"></div>
+        </div>
+
+        <div id="msgPan" class="section">
+            <div class="sectionTitle">תוכן ההודעה</div>
+            <textarea id="msg" rows="5" cols="33"></textarea>
+            <div id="attachment"></div>
+            <div class="btnCon msgActions">
+                <span class="button" onclick="emojiModel()">😉</span>
+                <span class="button" onclick="titleModel()" title="הוספה מכתרות קבועות">כותרת</span>
+                <span class="button" onclick="strEdit('*')" style="font-weight:bold" title="הדגשת הטקסט המסומן">B</span>
+                <span class="button" onclick="strEdit('_')" title="הטהיית הטקסט המסומן">𝑰</span>
+                <label class="button attachImg" title="צרוף תמונה או קובץ">
+                    <input id="uploadFile" type="file" name="uploadFile" style="display:none" value="" />
+                </label>
+                <div>
+                    <span id="showDeliverAt" class="button" onclick="showDeliverAt()" title="תזמון שליחה">🕑</span>
+                    <span class="button sendImg" onclick="startSend()" title="שליחת הודעה"></span>
+                </div>
+            </div>
+
+            <div class="btnCon sendCon">
+                <input id="deliverAt" class="hide toggle" type="datetime-local" />
+
+                <select class="toggle hide sendImg" id="sendSelect" autocomplete="off" onchange="deliverAtSend(this.value);">
+                    <optgroup label="מתי לשלוח?">
+                        <option hidden selected value></option>
+                        <option value="sendAt" title="ההודעה תישלח בזמן הנבחר">בתזמון</option>
+                        <option value="sendBoth" title="ישלחו 2 הודעות - עכשיו, ובזמן הנבחר">עכשיו ובתזמון</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div id="statusPan" class="">
+                <div id="statusList"></div>
+            </div>
+        </div>
+
+
+        <div id="queuePan" class="section">
+            <div class="sectionTitle">הודעות מתוזמנות</div>
+            <div id="queueList">
+            </div>
+        </div>
+    </div>
+
+    <dialog id="loginModel">
+        <div class="sectionTitle">כניסה עם סיסמה</div>
+        <div><input type="password" value="" /></div>
+        <p class="sendCon">
+            <span class="button" onclick="getBasics()">כניסה</span>
+        </p>
+    </dialog>
+
+    <dialog id="emojiModel">
+    </dialog>
+
+    <dialog id="titleModel">
+        <div class="sectionTitle">הוספת כותרת</div>
+        <div id="msgTitles">
+            <div>הודעת מנהל</div>
+            <div>הודעת מזכירות</div>
+            <div>הודעת צהרון</div>
+            <div>הודעה לשכבת א'</div>
+            <div>הודעה לשכבת ב'</div>
+            <div>הודעה מהמורה</div>
+            <div>הודעת ועד</div>
+        </div>
+    </dialog>
+
+    <dialog id="errorModel">
+        <div class="sectionTitle">שגיאה</div>
+        <div class="error"></div>
+        <div class="txt"></div>
+    </dialog>
+
+    <dialog id="settingsModel">
+        <div class="sectionTitle">הגדרות</div>
+        <div id="settingsList">
+            <div class="settItem">
+
+                <div>
+                    <div class="itemTitle">רענון קבוצות</div>
+                    אם נוספה קבוצה או שונה שם הקבוצה ניתן לרענן כאן (יתכן שיקחו כמה שעות שעד שהשינוי יחלחל, ורק אז ניתן לרענן כאן)
+                </div>
+                <a href="javascript:void(0)" onclick="refetchGroups()"><img src="./resources/group-refresh.svg" alt="רענון קבוצות" /></a>
+            </div>
+            <div class="settItem">
+                <div>
+                    <div class="itemTitle">הגדרה נוספת</div>
+                    הגדרות נוספות יהיו בהמשך
+                </div>
+                <a href="javascript:void(0)" onclick=""></a>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="faqModel">
+        <!--onclick="event.target==this && this.close()"-->
+        <div class="sectionTitle">שאלות נפוצות</div>
+        <details>
+            <summary>שאלה? חסר משהו?</summary>
+            <div>
+                אפשר לפנות לבצלאל מרכוס
+                <div style="position: relative;">
+                    <img src="./resources/contactR.jpg" alt="פרטי קשר זמני" /><img src="./resources/contactL.jpg" alt="פרטי קשר זמני" style="position: absolute; top: 2px;" />
+                </div>
+            </div>
+        </details>
+        <details>
+            <summary>כתוב שההודעה התקבלה אך בפועל לא נשלחה לקבוצה</summary>
+            <div>
+                בדרך כלל תוך 10 דקות ההודעה תופיע בקבוצה.
+            </div>
+        </details>
+        <details>
+            <summary>תזמנתי הודעה לשעה מסוימת אך היא לא נשלחה</summary>
+            <div>
+                בדרך כלל תוך 15 דקות משעת התזמון ההודעה תופיע בקבוצה.
+            </div>
+        </details>
+        <details>
+            <summary>תזמנתי הודעה והיא לא מופיע ברשימת ההודעות המתוזמנות</summary>
+            <div>
+                <ul>
+                    <li>
+                        הודעה מתוזמנת נשמרת רק על הדפדפן (המחשב) בו נשלחה. <br />
+                        לכן ניתן לבטל הודעה מתוזמנת רק מאותו דפדפן גם כן.
+                    </li>
+                    <li>
+                        אם ההודעה נשלחה מהמחשב הזה ולא רואים אותה, אפשר לנסות לרענן את העמוד. <br />
+                        עדיין אינה ברשימה? יתכן שהשליחה נכשלה וכדאי לנסות שוב.
+                    </li>
+                    <li>ניסתם שוב ועדיין לא רואים? נא לפנות לבצלאל (פרטים בשאלה הראשונה).</li>
+                </ul>
+            </div>
+        </details>
+        <details>
+            <summary>יצרתי כיתה/קבוצה ואני לא רואה אותה</summary>
+            <div>
+                יכול לקחת כמה שעות עד שהכיתה תסתנכרן עם המערכת החיצונית איתה אנו עובדים. <br />
+                לאחר שהיא מסונכרנת שם, צריך להכנס כאן להגדרות (למעלה מימין) וללחוץ על הסמליל של "רענון קבוצות". <br />
+                במקרה שלא מדובר בכיתה, צריך לבקש מבצלאל להוסיף (פרטים בשאלה הראשונה).
+            </div>
+        </details>
+        <details>
+            <summary>אותו שם קבוצה פעמיים או אותה כיתה פעמיים</summary>
+            <div>
+                זה יעשה בעיות. צריך להימנע.
+            </div>
+        </details>
+        <details>
+            <summary>יצירה אוטמטית של מבנה ביה"ס</summary>
+            <div>
+                התוכנה מזהה לבד שמות של כיתות ומכניסה אותם למבנה. <br />
+                לכן אם תיהיה קבוצת "כיתה א1 אלופים", וגם קבוצת "זקס א' 1 תרפט". התוכנה תכניס את 2 הכיתות למבנה של ביה"ס ותווצר בעיה בשליחת הודעות.
+            </div>
+        </details>
+    </dialog>
+
+    <dialog id="noteModel">
+        <div class="sectionTitle">הודעה</div>
+        <div class="note"></div>
+    </dialog>
+
+    <div id="templates">
+        <div class="groupSelector">
+            <details class="slot">
+                <summary><input type="checkbox" class="grade"></summary>
+            </details>
+            <label><input type="checkbox"></label>
+        </div>
+        <div class="otherGroupSelector slot">
+            <label><input type="checkbox"></label>
+        </div>
+        <div class="queuePan">
+            <details>
+                <summary>
+                    <div class="queueGrid">
+                        <quTitle>הודעת מזכירות</quTitle><quTime>4/5/2027 13:00</quTime><quCancel class="xBtn">ביטול</quCancel>
+                    </div>
+                </summary>
+                <quGroups>מען: א1, ב2, ג3</quGroups>
+                <quMsg>
+                    *הודעת פיתוח*
+
+                    אם ראיתם הודעה זו, *אנא* דווחו למפתח.
+                    יום נעים 😎
+                </quMsg>
+                <quImg></quImg>
+            </details>
+        </div>
+        <div class="attachment"><span class="attachImg"></span><span class="fileName"></span><span title="הסרת הקובץ" class="xBtn">X</span></div>
+    </div>
+    <!--<script src='https://www.gstatic.com/charts/loader.js'></script>-->
+    <script src="./main.js"></script>
+    <script src="./models.js"></script>
+    <script src="./uploadFile.js"></script>
+    <script src="./Emoji.js"></script>
+</body>
+</html>
